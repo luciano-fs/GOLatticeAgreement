@@ -4,6 +4,7 @@ import (
 	"fmt"
 	pb "github.com/luciano-fs/GOLatticeAgreement/protofiles"
 	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/types/known/anypb"
 )
 
 type Elem interface {
@@ -35,23 +36,23 @@ func (a IntSet) Leq(b IntSet) bool {
 	return true
 }
 
-
-
 func main() {
-	p := &pb.Person{
-		Id: 1234,
-		Name: "John Doe",
-		Email: "test@test.com",
-		Phones: []*pb.Person_PhoneNumber{
-			{Number: "555-444", Type: pb.Person_HOME},
-		},
+	var value IntSet
+	value = map[int]bool{
+		1: true,
+		2: true,
+		3: true,
 	}
 
-	// Serializing the struct and assigning it to body
+	p := &pb.Proposal{
+		Value: value,
+		Seq: 17,
+		Uid: 23,
+	}
+
 	body, _ := proto.Marshal(p)
 
-	// De-serializing the body and saving it to p1 for testing
-	p1 := &pb.Person{}
+	p1 := &pb.Proposal{}
 	_ = proto.Unmarshal(body, p1)
 
 	fmt.Println("Original struct loaded from proto file:", p)
