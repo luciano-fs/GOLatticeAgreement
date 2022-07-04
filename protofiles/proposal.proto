@@ -1,0 +1,18 @@
+syntax = "proto3";
+package protofiles;
+option go_package = "./";
+
+message Proposal {
+  bytes   value  =   1;
+  int32   seq    =   2;
+  int32   uid    =   3;
+}
+
+message Response {
+  bool    accept = 1;
+  bytes   value  = 2;
+}
+
+service Propose {
+  rpc MakeProposal(Proposal) returns (Response);
+}
