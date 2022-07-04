@@ -1,16 +1,17 @@
 syntax = "proto3";
 package protofiles;
 option go_package = "./";
+import "google/protobuf/any.proto";
 
 message Proposal {
-  bytes   value  =   1;
-  int32   seq    =   2;
-  int32   uid    =   3;
+  google.protobuf.Any value = 1;
+  int32               seq   = 2;
+  int32               uid   = 3;
 }
 
 message Response {
-  bool    accept = 1;
-  bytes   value  = 2;
+  bool                accept = 1;
+  google.protobuf.Any value  = 2;
 }
 
 service Propose {
