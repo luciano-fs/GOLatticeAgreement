@@ -4,7 +4,6 @@ import (
 	"fmt"
 	pb "github.com/luciano-fs/GOLatticeAgreement/protofiles"
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/anypb"
 )
 
 type Elem interface {
@@ -12,10 +11,10 @@ type Elem interface {
 	Leq(Elem)  bool
 }
 
-type IntSet map[int]bool
+type IntSet map[int32]bool
 
 func (a IntSet) Join(b IntSet) IntSet{
-	c := make(map[int]bool)
+	c := make(map[int32]bool)
 
 	for elemA,_ := range a {
 		c[elemA] = true
@@ -37,8 +36,7 @@ func (a IntSet) Leq(b IntSet) bool {
 }
 
 func main() {
-	var value IntSet
-	value = map[int]bool{
+    value := map[int32]bool{
 		1: true,
 		2: true,
 		3: true,
@@ -50,6 +48,7 @@ func main() {
 		Uid: 23,
 	}
 
+    /*
 	body, _ := proto.Marshal(p)
 
 	p1 := &pb.Proposal{}
@@ -58,5 +57,6 @@ func main() {
 	fmt.Println("Original struct loaded from proto file:", p)
 	fmt.Println("Marshalled proto data: ", body)
 	fmt.Println("Unmarshalled struct: ", p1)
+    */
 
 }
