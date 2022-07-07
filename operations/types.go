@@ -1,13 +1,6 @@
-package main
+package operations
 
-type Elem interface {
-	Join(Elem) Elem
-	Leq(Elem)  bool
-}
-
-type IntSet map[int32]bool
-
-func (a IntSet) Join(b IntSet) IntSet{
+func Join(a, b map[int32]bool) map[int32]bool {
 	c := make(map[int32]bool)
 
 	for elemA,_ := range a {
@@ -20,7 +13,7 @@ func (a IntSet) Join(b IntSet) IntSet{
 	return c
 }
 
-func (a IntSet) Leq(b IntSet) bool {
+func Leq(a, b map[int32]bool) bool {
 	for elemA,_ := range a {
 		if !b[elemA] {
 			return false
