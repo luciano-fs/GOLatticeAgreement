@@ -1,11 +1,11 @@
 package main
 
 import (
-	"fmt"
-    "os"
+        "os"
 	"net"
 	"log"
 	pb "github.com/luciano-fs/GOLatticeAgreement/protofiles"
+	la "github.com/luciano-fs/GOLatticeAgreement/operations"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
@@ -31,10 +31,10 @@ func main() {
 }
 
 func (s *server) MakeProposal(ctx context.Context, in *pb.Proposal) (*pb.Response, error) {
-	fmt.Println("Got proposal ", in.Value)
-	fmt.Println("Got from ", in.Uid)
-	fmt.Println("For sequence", in.Seq)
-    fmt.Println("Accepted so far:", s.Accepted)
+    //fmt.Println("Got proposal ", in.Value)
+    //fmt.Println("Got from ", in.Uid)
+    //fmt.Println("For sequence", in.Seq)
+    //fmt.Println("Accepted so far:", s.Accepted)
 
     nack := make(map[int32]bool)
 
@@ -44,8 +44,9 @@ func (s *server) MakeProposal(ctx context.Context, in *pb.Proposal) (*pb.Respons
 		}
 	}
 
+    s.Accepted = la.Join(s.Accepted, in.Value)
+
     if len(nack)== 0 {
-        s.Accepted = in.Value
         return &pb.Response{Accept: true, Value: nil}, nil
     } else {
         return &pb.Response{Accept: false, Value: nack}, nil

@@ -21,8 +21,10 @@ func propose(c pb.ProposeClient, value map[int32]bool, seq int32, id int32, r ch
 		},
 	)
 
-    r <- *resp
-    close(r)
+    if resp != nil {
+	    r <- *resp
+	    close(r)
+    }
 }
 
 func main() {
@@ -41,7 +43,7 @@ func main() {
     for i := 0; i<n; i++ {
         conn, err := grpc.Dial(addr[i], grpc.WithInsecure())
         if err != nil {
-            log.Fatalf("Error while making connection, %v", err)
+            log.Println("Error while making connection, %v", err)
         }
         rep[i] = pb.NewProposeClient(conn)
     }
